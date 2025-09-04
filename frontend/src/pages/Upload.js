@@ -5,9 +5,11 @@ import {
   CloudArrowUpIcon, 
   VideoCameraIcon,
   CheckCircleIcon,
-  ExclamationTriangleIcon
+  ExclamationTriangleIcon,
+  LinkIcon
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
+import YouTubeUpload from '../components/YouTubeUpload';
 
 const Upload = () => {
   const [categories, setCategories] = useState([]);
@@ -15,6 +17,7 @@ const Upload = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
+  const [activeTab, setActiveTab] = useState('file'); // 'file' or 'youtube'
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
@@ -124,11 +127,45 @@ const Upload = () => {
         <div className="inline-block p-4 bg-white rounded-2xl shadow-lg mb-4">
           <VideoCameraIcon className="h-12 w-12 text-primary-600" />
         </div>
-        <h1 className="text-4xl font-bold text-white mb-2">Upload Video</h1>
+        <h1 className="text-4xl font-bold text-white mb-2">Add Content</h1>
         <p className="text-white/80">Share safe, educational content for children</p>
       </div>
 
-      <div className="bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-8">
+      {/* Tab Navigation */}
+      <div className="flex justify-center mb-8">
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2 shadow-lg">
+          <div className="flex space-x-2">
+            <button
+              onClick={() => setActiveTab('file')}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                activeTab === 'file'
+                  ? 'bg-primary-600 text-white shadow-md'
+                  : 'text-gray-600 hover:text-primary-600 hover:bg-gray-50'
+              }`}
+            >
+              <CloudArrowUpIcon className="h-5 w-5" />
+              <span>Upload File</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('youtube')}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
+                activeTab === 'youtube'
+                  ? 'bg-red-600 text-white shadow-md'
+                  : 'text-gray-600 hover:text-red-600 hover:bg-gray-50'
+              }`}
+            >
+              <LinkIcon className="h-5 w-5" />
+              <span>Add YouTube</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'youtube' ? (
+        <YouTubeUpload />
+      ) : (
+        <div className="bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl p-8">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* File Upload Area */}
           <div>
@@ -304,7 +341,8 @@ const Upload = () => {
             </button>
           </div>
         </form>
-      </div>
+        </div>
+      )}
     </div>
   );
 };

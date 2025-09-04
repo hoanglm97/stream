@@ -19,6 +19,7 @@ class User(Base):
     # Relationships
     uploaded_videos = relationship("Video", back_populates="uploader")
     watch_history = relationship("WatchHistory", back_populates="user")
+    comments = relationship("Comment", back_populates="user")
 
 class Category(Base):
     __tablename__ = "categories"
@@ -38,11 +39,13 @@ class Video(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False, index=True)
     description = Column(Text)
-    filename = Column(String, nullable=False)
-    file_path = Column(String, nullable=False)
+    filename = Column(String, nullable=True)  # Optional for YouTube videos
+    file_path = Column(String, nullable=True)  # Optional for YouTube videos
+    youtube_url = Column(String, nullable=True)  # YouTube video URL
+    video_type = Column(String, default="local")  # "local" or "youtube"
     thumbnail_path = Column(String)
     duration = Column(Float)  # Duration in seconds
-    file_size = Column(Integer)  # File size in bytes
+    file_size = Column(Integer)  # File size in bytes (null for YouTube)
     age_rating = Column(String, default="G")  # G, PG, PG-13 (adapted for kids)
     is_approved = Column(Boolean, default=False)
     view_count = Column(Integer, default=0)
@@ -57,6 +60,7 @@ class Video(Base):
     category = relationship("Category", back_populates="videos")
     uploader = relationship("User", back_populates="uploaded_videos")
     watch_history = relationship("WatchHistory", back_populates="video")
+    comments = relationship("Comment", back_populates="video")
 
 class WatchHistory(Base):
     __tablename__ = "watch_history"
@@ -71,6 +75,26 @@ class WatchHistory(Base):
     # Relationships
     user = relationship("User", back_populates="watch_history")
     video = relationship("Video", back_populates="watch_history")
+
+class Comment(Base):
+    __tablename__ = "comments"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    is_approved = Column(Boolean, default=True)  # Auto-approve for now, can add moderation later
+    
+    # Foreign Keys
+    video_id = Column(Integer, ForeignKey("videos.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    parent_id = Column(Integer, ForeignKey("comments.id"), nullable=True)  # For replies
+    
+    # Relationships
+    video = relationship("Video", back_populates="comments")
+    user = relationship("User", back_populates="comments")
+    parent = relationship("Comment", remote_side=[id], back_populates="replies")
+    replies = relationship("Comment", back_populates="parent")
 
 class ContentReport(Base):
     __tablename__ = "content_reports"
