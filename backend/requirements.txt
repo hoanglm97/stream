@@ -17,3 +17,4 @@ opencv-python==4.8.1.78
 moviepy==1.0.3
 pydantic==2.5.0
 httpx==0.25.2
+requests==2.31.0

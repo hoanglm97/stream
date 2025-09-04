@@ -11,6 +11,7 @@ import {
   FlagIcon
 } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
+import Comments from '../components/Comments';
 
 const VideoPlayer = () => {
   const { id } = useParams();
@@ -124,7 +125,7 @@ const VideoPlayer = () => {
           {/* Video Player */}
           <div className="video-container mb-6">
             <ReactPlayer
-              url={`/videos/${video.id}/stream`}
+              url={video.video_type === 'youtube' ? video.youtube_url : `/videos/${video.id}/stream`}
               width="100%"
               height="500px"
               controls
@@ -133,6 +134,17 @@ const VideoPlayer = () => {
                 file: {
                   attributes: {
                     controlsList: 'nodownload'
+                  }
+                },
+                youtube: {
+                  playerVars: {
+                    showinfo: 1,
+                    rel: 0, // Don't show related videos from other channels
+                    modestbranding: 1, // Reduce YouTube branding
+                    fs: 1, // Allow fullscreen
+                    cc_load_policy: 1, // Show captions by default
+                    iv_load_policy: 3, // Hide video annotations
+                    autohide: 1 // Auto-hide controls
                   }
                 }
               }}
@@ -203,6 +215,11 @@ const VideoPlayer = () => {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Comments Section */}
+        <div className="lg:col-span-2 mt-8">
+          <Comments videoId={parseInt(id)} />
         </div>
 
         {/* Sidebar - Related Videos */}
