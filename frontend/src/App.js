@@ -15,6 +15,16 @@ import Upload from './pages/Upload';
 import Profile from './pages/Profile';
 import Favorites from './pages/Favorites';
 import ProtectedRoute from './components/ProtectedRoute';
+
+// New enhanced pages/components
+import ParentalDashboard from './components/ParentalControls/ParentalDashboard';
+import ContentModerationPanel from './components/Safety/ContentModerationPanel';
+import ProgressTracker from './components/Learning/ProgressTracker';
+import AvatarCustomizer from './components/Personalization/AvatarCustomizer';
+import SmartRecommendations from './components/Personalization/SmartRecommendations';
+import OfflineManager from './components/Advanced/OfflineManager';
+import EnhancedVideoPlayer from './components/Enhanced/EnhancedVideoPlayer';
+
 import './index.css';
 
 function App() {
@@ -52,6 +62,64 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Favorites />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              {/* Enhanced Features Routes */}
+              <Route 
+                path="/parental-dashboard" 
+                element={
+                  <ProtectedRoute parentOnly>
+                    <ParentalDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/moderation" 
+                element={
+                  <ProtectedRoute adminOnly>
+                    <ContentModerationPanel />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/progress" 
+                element={
+                  <ProtectedRoute>
+                    <ProgressTracker />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/avatar" 
+                element={
+                  <ProtectedRoute>
+                    <AvatarCustomizer />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/recommendations" 
+                element={
+                  <ProtectedRoute>
+                    <SmartRecommendations />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/offline" 
+                element={
+                  <ProtectedRoute>
+                    <OfflineManager />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/enhanced-video/:id" 
+                element={
+                  <ProtectedRoute>
+                    <EnhancedVideoPlayer />
                   </ProtectedRoute>
                 } 
               />
