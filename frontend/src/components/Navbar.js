@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import ThemeToggle from './ThemeToggle';
 import { 
   HomeIcon, 
   UserIcon, 
@@ -19,7 +20,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white/90 backdrop-blur-md shadow-lg sticky top-0 z-50">
+    <nav className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-lg sticky top-0 z-50 transition-colors duration-300">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
@@ -27,16 +28,17 @@ const Navbar = () => {
             <div className="bg-gradient-to-r from-primary-500 to-secondary-500 p-2 rounded-xl">
               <PlayIcon className="h-8 w-8 text-white" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent dark:from-primary-400 dark:to-secondary-400">
               KidsStream
             </span>
           </Link>
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-6">
+            <ThemeToggle />
             <Link 
               to="/" 
-              className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors duration-200"
+              className="flex items-center space-x-1 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
             >
               <HomeIcon className="h-5 w-5" />
               <span className="font-medium">Home</span>
@@ -47,7 +49,7 @@ const Navbar = () => {
                 {isParent && (
                   <Link 
                     to="/upload" 
-                    className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors duration-200"
+                    className="flex items-center space-x-1 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
                   >
                     <PlusCircleIcon className="h-5 w-5" />
                     <span className="font-medium">Upload</span>
@@ -56,7 +58,7 @@ const Navbar = () => {
                 
                 <Link 
                   to="/profile" 
-                  className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 transition-colors duration-200"
+                  className="flex items-center space-x-1 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
                 >
                   <UserIcon className="h-5 w-5" />
                   <span className="font-medium">Profile</span>
@@ -64,7 +66,7 @@ const Navbar = () => {
 
                 <button 
                   onClick={handleLogout}
-                  className="flex items-center space-x-1 text-gray-700 hover:text-red-600 transition-colors duration-200"
+                  className="flex items-center space-x-1 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200"
                 >
                   <ArrowRightOnRectangleIcon className="h-5 w-5" />
                   <span className="font-medium">Logout</span>
@@ -74,7 +76,7 @@ const Navbar = () => {
               <div className="flex items-center space-x-4">
                 <Link 
                   to="/login" 
-                  className="text-gray-700 hover:text-primary-600 font-medium transition-colors duration-200"
+                  className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors duration-200"
                 >
                   Login
                 </Link>
@@ -90,7 +92,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button className="text-gray-700 hover:text-primary-600">
+            <button className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
